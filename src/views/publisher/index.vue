@@ -2,6 +2,7 @@
   <div class="app-container">
 
     <el-table v-loading="listLoading" :data="list" border fit highlight-current-row style="width: 100%">
+
       <el-table-column align="center" label="ID" width="80">
         <template slot-scope="scope">
           <span>{{ scope.row.id }}</span>
@@ -34,34 +35,30 @@
 
       <el-table-column min-width="300px" label="Title">
         <template slot-scope="scope">
-
-          <router-link :to="'/blog/edit/'+scope.row.id" class="link-type">
-            <span>{{ scope.row.title }}</span>
-          </router-link>
+          <template v-if="scope.row.edit">
+            <el-input v-model="scope.row.title" class="edit-input" size="small"/>
+            <el-button class="cancel-btn" size="small" icon="el-icon-refresh" type="warning" @click="cancelEdit(scope.row)">cancel</el-button>
+          </template>
+          <span v-else>{{ scope.row.title }}</span>
         </template>
       </el-table-column>
 
       <el-table-column align="center" label="Actions" width="120">
         <template slot-scope="scope">
-          <router-link :to="'/blog/edit/'+scope.row.id">
-            <el-button type="primary" size="small" icon="el-icon-edit">Edit</el-button>
-          </router-link>
+          <el-button v-if="scope.row.edit" type="success" size="small" icon="el-icon-circle-check-outline" @click="confirmEdit(scope.row)">Ok</el-button>
+          <el-button v-else type="primary" size="small" icon="el-icon-edit" @click="scope.row.edit=!scope.row.edit">Edit</el-button>
         </template>
       </el-table-column>
+
     </el-table>
-
-    <pagination v-show="total>0" :total="total" :page.sync="listQuery.page" :limit.sync="listQuery.limit" @pagination="getList" />
-
   </div>
 </template>
 
 <script>
 import { fetchList } from '@/api/article'
-import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
 
 export default {
-  name: 'ArticleList',
-  components: { Pagination },
+  name: 'InlineEditTable',
   filters: {
     statusFilter(status) {
       const statusMap = {
@@ -75,11 +72,10 @@ export default {
   data() {
     return {
       list: null,
-      total: 0,
       listLoading: true,
       listQuery: {
         page: 1,
-        limit: 20
+        limit: 10
       }
     }
   },
@@ -90,18 +86,30 @@ export default {
     getList() {
       this.listLoading = true
       fetchList(this.listQuery).then(response => {
-        this.list = response.data.items
-        this.total = response.data.total
+        const items = response.data.items
+        this.list = items.map(v => {
+          this.$set(v, 'edit', false) // https://vuejs.org/v2/guide/reactivity.html
+          v.originalTitle = v.title //  will be used when user click the cancel botton
+          return v
+        })
         this.listLoading = false
       })
     },
-    handleSizeChange(val) {
-      this.listQuery.limit = val
-      this.getList()
+    cancelEdit(row) {
+      row.title = row.originalTitle
+      row.edit = false
+      this.$message({
+        message: 'The title has been restored to the original value',
+        type: 'warning'
+      })
     },
-    handleCurrentChange(val) {
-      this.listQuery.page = val
-      this.getList()
+    confirmEdit(row) {
+      row.edit = false
+      row.originalTitle = row.title
+      this.$message({
+        message: 'The title has been edited',
+        type: 'success'
+      })
     }
   }
 }

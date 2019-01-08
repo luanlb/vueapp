@@ -4,16 +4,30 @@ const userMap = {
   admin: {
     roles: ['admin'],
     token: 'admin',
-    introduction: '我是超级管理员',
+    introduction: 'admin',
     avatar: 'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif',
     name: 'Super Admin'
   },
   editor: {
     roles: ['editor'],
     token: 'editor',
-    introduction: '我是编辑',
+    introduction: 'editor',
     avatar: 'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif',
     name: 'Normal Editor'
+  },
+  publisher: {
+    roles: ['publisher'],
+    token: 'publisher',
+    introduction: 'publisher',
+    avatar: 'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif',
+    name: 'Normal publisher'
+  },
+  supplier: {
+    roles: ['supplier'],
+    token: 'supplier',
+    introduction: 'supplier',
+    avatar: 'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif',
+    name: 'Normal supplier'
   }
 }
 
