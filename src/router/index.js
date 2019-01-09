@@ -166,7 +166,80 @@ export const asyncRouterMap = [
       }
     ]
   },
-  reportRouter,
+  {
+    path: '/sp-store',
+    component: Layout,
+    redirect: '/sp-store',
+    meta: { title: 'Quản lý Store', icon: 'products and services', noCache: true, roles: ['supplier'] },
+    children: [
+      {
+        path: 'categories',
+        component: () => import('@/views/store/categories'),
+        name: 'categories-manager',
+        meta: { title: 'Sản phẩm', icon: 'products', noCache: true, roles: ['supplier'] }
+      },
+      {
+        path: 'campaign',
+        component: () => import('@/views/user/users'),
+        name: 'campaign-manager',
+        meta: { title: 'Chiến dịch', icon: 'campaigns', noCache: true, roles: ['supplier'] }
+      },
+      {
+        path: 'orders',
+        component: () => import('@/views/user/users'),
+        name: 'orders-manager',
+        meta: { title: 'Đơn hàng', icon: 'order', noCache: true, roles: ['supplier'] }
+      },
+      {
+        path: 'advertisement',
+        component: () => import('@/views/user/users'),
+        name: 'advertiser-manager',
+        meta: { title: 'Quảng cáo', icon: 'advert', noCache: true, roles: ['supplier'] }
+      }
+    ]
+  },
+  {
+    path: '/sp-publisher',
+    component: Layout,
+    redirect: '/sp-publisher',
+    meta: { title: 'Publisher đang chạy', icon: 'products and services', noCache: true, roles: ['supplier'] },
+    children: [
+      {
+        path: '',
+        component: () => import('@/views/user/users'),
+        name: 'categories-manager',
+        meta: { title: 'Publisher đang chạy', icon: 'products', noCache: true, roles: ['supplier'] }
+      }
+    ]
+  },
+  {
+    path: '/suppliers',
+    component: Layout,
+    redirect: '/suppliers',
+    meta: { title: 'Đối tác', icon: 'campaign', noCache: true, roles: ['publisher'] },
+    children: [
+      {
+        path: '',
+        component: () => import('@/views/campaign/list'),
+        name: 'campaigns-list',
+        meta: { title: 'Đối tác', icon: 'campaigns', noCache: true, roles: ['publisher'] }
+      }
+    ]
+  },
+  {
+    path: '/campaigns',
+    component: Layout,
+    redirect: '/campaigns',
+    meta: { title: 'Chiến dịch', icon: 'campaign', noCache: true, roles: ['publisher'] },
+    children: [
+      {
+        path: '',
+        component: () => import('@/views/campaign/list'),
+        name: 'campaigns-list',
+        meta: { title: 'Chiến dịch', icon: 'campaigns', noCache: true, roles: ['publisher'] }
+      }
+    ]
+  },
   {
     path: '/blog',
     component: Layout,
@@ -194,5 +267,6 @@ export const asyncRouterMap = [
     ],
     meta: { title: 'Quản lý Blogs', icon: 'tree', noCache: true, roles: ['admin'] }
   },
+  reportRouter,
   { path: '*', redirect: '/404', hidden: true }
 ]

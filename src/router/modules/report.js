@@ -35,6 +35,30 @@ const reportRouter = {
       component: () => import('@/views/report/dynamicTable/index'),
       name: 'campaign-analyze',
       meta: { title: 'Affiliate', icon: 'advert', noCache: true, roles: ['admin'] }
+    },
+    {
+      path: 'p-summary',
+      component: () => import('@/views/campaign/index'),
+      name: 'p-summary',
+      meta: { title: 'Tổng quan', icon: 'advert', noCache: true, roles: ['publisher'] }
+    },
+    {
+      path: 'p-campaign',
+      component: () => import('@/views/campaign/index'),
+      name: 'p-campaign',
+      meta: { title: 'Chiến dịch', icon: 'products', noCache: true, roles: ['publisher'] }
+    },
+    {
+      path: 'p-order',
+      component: () => import('@/views/campaign/index'),
+      name: 'p-order',
+      meta: { title: 'Đơn hàng', icon: 'campaigns', noCache: true, roles: ['publisher'] }
+    },
+    {
+      path: 'p-trafic',
+      component: () => import('@/views/campaign/index'),
+      name: 'p-trafic',
+      meta: { title: 'Trafic', icon: 'order', noCache: true, roles: ['publisher'] }
     }
   ]
 }
